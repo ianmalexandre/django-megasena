@@ -8,7 +8,10 @@ class AdminOrItself(BasePermission, JWTTokenUserAuthentication):
         _, tokenData = self.authenticate(request)
         userId = str(tokenData['user_id'])
         pk = view.kwargs.get('pk')
-        print(f'pk = {pk}, userId = {userId}')
+        method = request.method
+        if (pk == None) and (method == 'POST'):
+            return True
+
         if (pk == userId):
             return True
 
